@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBFBFD"
+    android:orientation="vertical"
+    tools:context=".RegistrarMascota">
+
+    <ScrollView
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+       <LinearLayout
+           android:orientation="vertical"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="15dp"
+               android:text="Registro de Mascotas"
+               android:textSize="20dp" />
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="15dp"
+               android:text="Datos del Propietario"
+               android:textSize="16dp" />
+
+           <Spinner
+               android:id="@+id/spCliente"
+               android:layout_width="409dp"
+               android:layout_height="wrap_content"
+               tools:layout_editor_absoluteX="1dp"
+               tools:layout_editor_absoluteY="44dp" />
+
+           <View
+               android:id="@+id/divider"
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="5dp"
+               android:background="?android:attr/listDivider" />
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10dp"
+               android:text="Datos de la Mascota"
+               android:textSize="16dp" />
+
+           <Spinner
+               android:id="@+id/spAnimal"
+               android:layout_width="409dp"
+               android:layout_height="wrap_content"
+               tools:layout_editor_absoluteX="1dp"
+               tools:layout_editor_absoluteY="44dp" />
+
+           <Spinner
+               android:id="@+id/spRaza"
+               android:layout_width="409dp"
+               android:layout_height="wrap_content"
+               tools:layout_editor_absoluteX="1dp"
+               tools:layout_editor_absoluteY="44dp" />
+
+           >
+
+           <EditText
+               android:id="@+id/etNombreMascota"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Nombre" />
+
+           <EditText
+               android:id="@+id/etColorMascotas"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Color" />
+
+           <RadioGroup
+               android:id="@+id/rdGroupGeneroMascota"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_marginBottom="5dp">
+
+               <RadioButton
+                   android:id="@+id/rbMacho"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:checked="true"
+                   android:text="Macho" />
+
+               <RadioButton
+                   android:id="@+id/rbHembra"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Hembra" />
+
+           </RadioGroup>
+
+           <LinearLayout
+               android:orientation="horizontal"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+               <Button
+                   android:id="@+id/botonSubirFoto"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="15dp"
+                   android:text="🖼️ Foto "
+                   app:cornerRadius="@dimen/cardview_default_radius" />
+
+               <ImageView
+                   android:layout_marginLeft="40dp"
+                   android:id="@+id/ivMascota"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_below="@id/botonSubirFoto"
+                   android:layout_marginTop="0dp" />
+           </LinearLayout>
+
+           <Button
+               android:id="@+id/btRegistrarMascota"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="15dp"
+               android:text="Registrar Cliente" />
+       </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
