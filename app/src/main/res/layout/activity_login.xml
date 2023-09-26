@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBFBFD"
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".Login">
@@ -35,6 +34,13 @@
         android:layout_marginBottom="20dp"
         android:hint="Contraseña"
         android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/etRegistrarse"
+        android:text="Registrarse aqui 🙋‍"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btLogin"

@@ -29,14 +29,6 @@
         android:hint="Nombres" />
 
     <EditText
-        android:id="@+id/etTelefono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Telefono"
-        android:inputType="phone"
-        />
-
-    <EditText
         android:id="@+id/etDni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,10 +36,13 @@
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/etDireccion"
+        android:id="@+id/etClaveacceso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Direccion" />
+        android:hint="Clave acceso"
+        android:inputType="text"
+        />
+
 
     <RadioGroup
         android:id="@+id/rdGroupGenero"

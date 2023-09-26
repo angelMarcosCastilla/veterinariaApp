@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,6 +27,8 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
     EditText etPassword, etUsuario;
+
+    TextView etRegistrarse;
     String password, usuario;
     Button btLogin;
 
@@ -41,6 +44,18 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateFields();
+            }
+        });
+
+        etRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RegistrarCliente.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("tiposuario", "D");
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -70,9 +85,21 @@ public class Login extends AppCompatActivity {
                         try{
                             JSONObject jsonObject = new JSONObject(response);
                             if(jsonObject.getBoolean("success")){
-                                Intent intent = new Intent(getApplicationContext(), Menu.class);
-                                startActivity(intent);
-                                finish();
+                                JSONObject jsonObjectUser = jsonObject.getJSONObject("data");
+                                String tipousuario = jsonObjectUser.getString("tipousuario");
+                                Utils.setRol(tipousuario);
+                                Utils.setDni(jsonObjectUser.getString("dni"));
+                                Utils.setIdCliente(jsonObjectUser.getString("idcliente"));
+                                if(tipousuario.equals("D")){
+                                    Intent intent = new Intent(getApplicationContext(), BuscarCliente.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else {
+                                    Intent intent = new Intent(getApplicationContext(), Menu.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
                             }else{
                                 Utils.showToast(Login.this, jsonObject.getString("message"));
                             }
@@ -108,5 +135,6 @@ public class Login extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etUsuario = findViewById(R.id.etUsuario);
         btLogin = findViewById(R.id.btLogin);
+        etRegistrarse = findViewById(R.id.etRegistrarse);
     }
 }

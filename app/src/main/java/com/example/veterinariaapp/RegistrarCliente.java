@@ -20,20 +20,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrarCliente extends AppCompatActivity {
-    EditText etNombres, etApellidos, etDni, etTelefono, etDireccion;
-    String nombres, apellidos, dni, telefono, direccion, genero;
+    EditText etNombres, etApellidos, etDni, etClaveAcceso;
+    String nombres, apellidos, dni, genero, claveacceso, tipoUsuario = "S";
     RadioGroup rdGroupGenero;
     Button btRegistrarCliente;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_cliente);
         loadUI();
+
+        if(Utils.getRol().equals("D")){
+            tipoUsuario = "D";
+        }
 
         btRegistrarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +55,7 @@ public class RegistrarCliente extends AppCompatActivity {
         nombres = etNombres.getText().toString().trim();
         apellidos = etApellidos.getText().toString().trim();
         dni = etDni.getText().toString().trim();
-        telefono = etTelefono.getText().toString().trim();
-        direccion = etDireccion.getText().toString().trim();
+        claveacceso = etClaveAcceso.getText().toString().trim();
 
         int idSelectedRadio = rdGroupGenero.getCheckedRadioButtonId();
         RadioButton radioSelected= findViewById(idSelectedRadio);
@@ -66,7 +72,10 @@ public class RegistrarCliente extends AppCompatActivity {
             etDni.requestFocus();
         }else if(genero.isEmpty()){
             Utils.showToast(this, "Seleccione genero");
-        }else{
+        } else if (claveacceso.isEmpty()) {
+            etClaveAcceso.setError("Ingrese clave de acceso");
+            etClaveAcceso.requestFocus();
+        } else{
             btRegistrarCliente.setEnabled(false);
             registrarCliente();
         }
@@ -83,7 +92,18 @@ public class RegistrarCliente extends AppCompatActivity {
                     public void onResponse(String response) {
                        btRegistrarCliente.setEnabled(true);
                        Utils.showToast(getApplicationContext(), "Cliente registrado correctamente");
-                       resetUI();
+                        try {
+                            JSONObject res = new JSONObject(response);
+                            JSONObject data = res.getJSONObject("data");
+                            String idCliente = data.getString("LAST_INSERT_ID()");
+                            if(tipoUsuario.equals("D")) {
+                            }
+                            resetUI();
+
+                        }catch (Exception e){
+                            Log.e("Error", e.getMessage());
+                        }
+
                     }
                 },
         new Response.ErrorListener() {
@@ -101,10 +121,10 @@ public class RegistrarCliente extends AppCompatActivity {
                 parametros.put("nombres", nombres);
                 parametros.put("apellidos", apellidos);
                 parametros.put("dni", dni);
-                parametros.put("telefono", telefono);
-                parametros.put("direccion", direccion);
                 parametros.put("genero", genero.substring(0,1));
                 parametros.put("operacion", "registrarCliente");
+                parametros.put("claveacceso", claveacceso);
+                parametros.put("tipousuario", tipoUsuario);
 
                 return parametros;
             }
@@ -119,8 +139,7 @@ public class RegistrarCliente extends AppCompatActivity {
         etNombres.setText("");
         etApellidos.setText("");
         etDni.setText("");
-        etTelefono.setText("");
-        etDireccion.setText("");
+        etClaveAcceso.setText("");
         rdGroupGenero.check(R.id.rdMasculino);
         etApellidos.requestFocus();
     }
@@ -128,8 +147,7 @@ public class RegistrarCliente extends AppCompatActivity {
         etNombres = findViewById(R.id.etNombres);
         etApellidos = findViewById(R.id.etApellidos);
         etDni = findViewById(R.id.etDni);
-        etTelefono = findViewById(R.id.etTelefono);
-        etDireccion = findViewById(R.id.etDireccion);
+        etClaveAcceso = findViewById(R.id.etClaveacceso);
         rdGroupGenero = findViewById(R.id.rdGroupGenero);
         btRegistrarCliente = findViewById(R.id.btRegistrarCliente);
     }

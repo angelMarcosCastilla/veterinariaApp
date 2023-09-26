@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -48,6 +49,7 @@ public class RegistrarMascota extends AppCompatActivity {
     ArrayList<Item> listRaza = new ArrayList<>();
     ArrayList<Item> listCliente = new ArrayList<>();
     Bitmap bitmap;
+    LinearLayout LyPropietario;
 
 
     @Override
@@ -56,8 +58,14 @@ public class RegistrarMascota extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_mascota);
         loadUI();
 
-        // obtenemos loas datos para los selects
-        getCLiente();
+        if(Utils.getRol().equals("D")){
+            LyPropietario.setVisibility(View.GONE);
+            idCliente = Integer.parseInt(Utils.getIdCliente());
+        }else{
+            getCLiente();
+        }
+        // obtenemos loas datos para los select
+
         getAnimal();
         getRazas();
 
@@ -182,6 +190,10 @@ public class RegistrarMascota extends AppCompatActivity {
             public void onResponse(String response) {
                 // Resetear campos
                 resetFields();
+                Utils.showToast(getApplicationContext(), "Mascota registrada correctamente");
+                Intent intent = new Intent(getApplicationContext(), BuscarCliente.class);
+                startActivity(intent);
+                finish();
             }
         },
                 new Response.ErrorListener() {
@@ -217,7 +229,6 @@ public class RegistrarMascota extends AppCompatActivity {
         colorMascota = "";
         imagenMascota = "";
         generoMascota = "";
-        idCliente = 0;
         idAnimal = 0;
         idRaza = 0;
         // limpiamos los componentes
@@ -225,9 +236,13 @@ public class RegistrarMascota extends AppCompatActivity {
         etNombreMascota.setText("");
         spAnimal.setSelection(0);
         spRaza.setSelection(0);
-        spCliente.setSelection(0);
         rdGroupGeneroMascota.check(R.id.rbMacho);
         ivMascota.setImageBitmap(null);
+        if(!Utils.getRol().equals("D")){
+            spCliente.setSelection(0);
+            idCliente = 0;
+
+        }
     }
     private void loadUI(){
         etNombreMascota = findViewById(R.id.etNombreMascota);
@@ -239,6 +254,7 @@ public class RegistrarMascota extends AppCompatActivity {
         spAnimal = findViewById(R.id.spAnimal);
         spRaza = findViewById(R.id.spRaza);
         spCliente = findViewById(R.id.spCliente);
+        LyPropietario = findViewById(R.id.LyPropietario);
     }
 
     private void getRazas(){
